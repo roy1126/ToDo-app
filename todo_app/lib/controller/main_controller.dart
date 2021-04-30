@@ -40,14 +40,17 @@ class MainController extends GetxController {
       title: 'First',
       list: [
         ToDoCheckbox(
+          id: 1,
           label: 'Singing',
           value: true,
         ),
         ToDoCheckbox(
+          id: 2,
           label: 'Dancing',
           value: false,
         ),
         ToDoCheckbox(
+          id: 3,
           label: 'Meeting',
           value: false,
         ),
@@ -57,27 +60,31 @@ class MainController extends GetxController {
       id: 2,
       title: 'Second',
       list: [
-        ToDoCheckbox(label: 'Read', value: true),
-        ToDoCheckbox(label: 'Jogging every morning', value: false)
+        ToDoCheckbox(id: 4, label: 'Read', value: true),
+        ToDoCheckbox(id: 5, label: 'Jogging every morning', value: false)
       ],
     ),
     Task(
-      id: 1,
-      title: 'First',
+      id: 3,
+      title: 'Third',
       list: [
         ToDoCheckbox(
+          id: 6,
           label: 'Clean the room',
           value: true,
         ),
         ToDoCheckbox(
+          id: 7,
           label: 'Walking',
           value: false,
         ),
         ToDoCheckbox(
+          id: 8,
           label: 'Basketball',
           value: false,
         ),
         ToDoCheckbox(
+          id: 9,
           label: 'Reviewing',
           value: false,
         ),
@@ -111,5 +118,13 @@ class MainController extends GetxController {
 
   void addToListOfTask(ToDoCheckbox todo) {
     currentTask.list.add(todo);
+  }
+
+  void deleteTaskFromList(ToDoCheckbox todo) {
+    currentTask.list.removeWhere((element) => element.id == todo.id);
+  }
+
+  void deleteWholeTask(Task task) {
+    tasks.removeWhere((element) => element.id == task.id);
   }
 }

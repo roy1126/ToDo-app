@@ -115,6 +115,44 @@ class _TaskPageState extends State<TaskPage> {
           children: [
             Row(
               children: [
+                if (_editMode)
+                  TextButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Are you sure you want to delete this Whole Task?',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        mainController
+                                            .deleteWholeTask(widget.task);
+                                        Get.offNamed('/home');
+                                      },
+                                      child: Text(
+                                        'Yes',
+                                        style: TextStyle(color: Colors.red),
+                                      )),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('No'))
+                                ],
+                              );
+                            });
+                      },
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero, minimumSize: Size(20, 20)),
+                      child: Icon(
+                        Icons.restore_from_trash,
+                        size: 15,
+                      )),
                 _editTitle
                     ? Flexible(
                         child: TextFormField(
@@ -154,7 +192,7 @@ class _TaskPageState extends State<TaskPage> {
                           child: Icon(
                             Icons.edit,
                             size: 18,
-                          ))
+                          )),
               ],
             ),
             SizedBox(
@@ -199,6 +237,54 @@ class _TaskPageState extends State<TaskPage> {
                             },
                             title: Row(
                               children: [
+                                if (_editMode)
+                                  TextButton(
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                  'Are you sure you want to delete this task?',
+                                                  textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(fontSize: 14),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        mainController
+                                                            .deleteTaskFromList(
+                                                                e);
+                                                        Navigator.pushReplacement(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    TaskPage(
+                                                                        task: mainController
+                                                                            .currentTask)));
+                                                      },
+                                                      child: Text(
+                                                        'Yes',
+                                                        style: TextStyle(
+                                                            color: Colors.red),
+                                                      )),
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text('No'))
+                                                ],
+                                              );
+                                            });
+                                      },
+                                      style: TextButton.styleFrom(
+                                          padding: EdgeInsets.zero,
+                                          minimumSize: Size(20, 20)),
+                                      child: Icon(
+                                        Icons.restore_from_trash,
+                                        size: 15,
+                                      )),
                                 Flexible(
                                   child: Text(
                                     e.label,
@@ -301,122 +387,6 @@ class _TaskPageState extends State<TaskPage> {
                       );
                     }),
               ),
-              // child: Column(
-              //   children: widget.task.list
-              //       .map((e) => Card(
-              //             elevation: 5,
-              //             child: CheckboxListTile(
-              //               contentPadding:
-              //                   EdgeInsets.only(left: 20, right: 20),
-              //               value: e.value,
-              //               onChanged: (value) {
-              //                 setState(() {
-              //                   e.value = !e.value;
-              //                 });
-              //               },
-              //               title: Row(
-              //                 children: [
-              //                   Flexible(
-              //                     child: Text(
-              //                       e.label,
-              //                       overflow: TextOverflow.ellipsis,
-              //                       style: TextStyle(
-              //                         fontSize: 15,
-              //                       ),
-              //                     ),
-              //                   ),
-              //                   if (_editMode)
-              //                     TextButton(
-              //                         style: TextButton.styleFrom(
-              //                             padding: EdgeInsets.zero,
-              //                             minimumSize: Size(20, 20)),
-              //                         onPressed: () {
-              //                           textController.editTask(e.label);
-              //                           showModalBottomSheet(
-              //                               shape: RoundedRectangleBorder(
-              //                                 borderRadius:
-              //                                     BorderRadius.circular(20.0),
-              //                               ),
-              //                               context: context,
-              //                               builder: (context) {
-              //                                 return StatefulBuilder(
-              //                                     builder: (context, setState) {
-              //                                   return Padding(
-              //                                     padding: const EdgeInsets.all(
-              //                                         20.0),
-              //                                     child: Column(
-              //                                       mainAxisAlignment:
-              //                                           MainAxisAlignment
-              //                                               .spaceEvenly,
-              //                                       children: [
-              //                                         Text(
-              //                                           'Edit Task',
-              //                                           style: TextStyle(
-              //                                               fontSize: 20,
-              //                                               fontWeight:
-              //                                                   FontWeight
-              //                                                       .bold),
-              //                                         ),
-              //                                         TextFormField(
-              //                                           controller:
-              //                                               textController
-              //                                                   .taskController,
-              //                                           decoration: InputDecoration(
-              //                                               border:
-              //                                                   OutlineInputBorder()),
-              //                                         ),
-              //                                         Row(
-              //                                           children: [
-              //                                             Spacer(),
-              //                                             ElevatedButton(
-              //                                                 onPressed: () {
-              //                                                   mainController.editToDoTask(
-              //                                                       e,
-              //                                                       textController
-              //                                                           .taskController
-              //                                                           .text);
-
-              //                                                   Navigator.pushReplacement(
-              //                                                       context,
-              //                                                       MaterialPageRoute(
-              //                                                           builder:
-              //                                                               (context) =>
-              //                                                                   TaskPage(task: mainController.currentTask)));
-              //                                                   //  Get.to(() => TaskPage(task: taskController.tasks[index]));
-              //                                                 },
-              //                                                 child:
-              //                                                     Text('Save')),
-              //                                             SizedBox(
-              //                                               width: 10,
-              //                                             ),
-              //                                             TextButton(
-              //                                                 onPressed: () {
-              //                                                   textController
-              //                                                       .taskController
-              //                                                       .clear();
-              //                                                   Navigator.pop(
-              //                                                       context);
-              //                                                 },
-              //                                                 child: Text(
-              //                                                     'Cancel'))
-              //                                           ],
-              //                                         )
-              //                                       ],
-              //                                     ),
-              //                                   );
-              //                                 });
-              //                               });
-              //                         },
-              //                         child: Icon(
-              //                           Icons.edit,
-              //                           size: 15,
-              //                         ))
-              //                 ],
-              //               ),
-              //             ),
-              //           ))
-              //       .toList(),
-              // ),
             )
           ],
         ),
