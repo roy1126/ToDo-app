@@ -5,7 +5,8 @@ This is a simple ToDo application created using Flutter. I used local variables 
 Features: 
 - Create Task
 - Add Task in a List
-- Edit Task
+- Edit/Update Task
+- Delete Task
 - Real time passing of Data
 - Safe Mode and Edit Mode
 
