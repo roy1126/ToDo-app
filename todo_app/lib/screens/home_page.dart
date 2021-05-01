@@ -14,6 +14,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final taskController = Get.put(MainController());
     final size = MediaQuery.of(context).size;
+    final isMobile = size.width < 900;
 
     return Scaffold(
       appBar: AppBar(
@@ -112,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: size.height * 0.1),
             SizedBox(
-              height: 250,
+              height: size.height * 0.38,
               child: ListView.separated(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 scrollDirection: Axis.horizontal,
@@ -131,8 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           TaskPage(task: taskController.finalTask()[index]));
                     },
                     child: Container(
-                      height: 250,
-                      width: 150,
+                      width: isMobile ? 200 : size.width * 0.2,
                       decoration: BoxDecoration(
                         color: taskController.colors[index],
                         borderRadius: BorderRadius.circular(5),
@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 30, 10, 30),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               '${taskController.finalTask()[index].title}',

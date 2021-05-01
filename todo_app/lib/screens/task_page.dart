@@ -20,6 +20,7 @@ class _TaskPageState extends State<TaskPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final isMobile = size.width < 900;
     final mainController = Get.find<MainController>();
     final textController = Get.put(TextController());
     return Scaffold(
@@ -46,6 +47,9 @@ class _TaskPageState extends State<TaskPage> {
                     style: TextStyle(color: Colors.blue),
                   )
                 : Text('Edit Mode'),
+          ),
+          SizedBox(
+            width: 20,
           )
         ],
       ),
@@ -116,43 +120,49 @@ class _TaskPageState extends State<TaskPage> {
             Row(
               children: [
                 if (_editMode)
-                  TextButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(
-                                  'Are you sure you want to delete this Whole Task?',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        mainController
-                                            .deleteWholeTask(widget.task);
-                                        Get.offNamed('/home');
-                                      },
-                                      child: Text(
-                                        'Yes',
-                                        style: TextStyle(color: Colors.red),
-                                      )),
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('No'))
-                                ],
-                              );
-                            });
-                      },
-                      style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero, minimumSize: Size(20, 20)),
-                      child: Icon(
-                        Icons.restore_from_trash,
-                        size: 15,
-                      )),
+                  Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'Are you sure you want to delete this Whole Task?',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            mainController
+                                                .deleteWholeTask(widget.task);
+                                            Get.offNamed('/home');
+                                          },
+                                          child: Text(
+                                            'Yes',
+                                            style: TextStyle(color: Colors.red),
+                                          )),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('No'))
+                                    ],
+                                  );
+                                });
+                          },
+                          style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size(20, 20)),
+                          child: Icon(
+                            Icons.restore_from_trash,
+                            size: 15,
+                          )),
+                    ],
+                  ),
+                if (_editMode) SizedBox(width: isMobile ? 10 : 20),
                 _editTitle
                     ? Flexible(
                         child: TextFormField(
@@ -168,6 +178,7 @@ class _TaskPageState extends State<TaskPage> {
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ),
+                if (_editMode) SizedBox(width: isMobile ? 10 : 20),
                 if (_editMode)
                   _editTitle
                       ? TextButton(
@@ -285,6 +296,8 @@ class _TaskPageState extends State<TaskPage> {
                                         Icons.restore_from_trash,
                                         size: 15,
                                       )),
+                                if (_editMode)
+                                  SizedBox(width: isMobile ? 10 : 20),
                                 Flexible(
                                   child: Text(
                                     e.label,
@@ -294,6 +307,8 @@ class _TaskPageState extends State<TaskPage> {
                                     ),
                                   ),
                                 ),
+                                if (_editMode)
+                                  SizedBox(width: isMobile ? 10 : 20),
                                 if (_editMode)
                                   TextButton(
                                       style: TextButton.styleFrom(
